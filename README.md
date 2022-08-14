@@ -1,2 +1,2 @@
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/Polyrom/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/Polyrom/python-project-lvl3/actions)
+
+[![linter-check](https://github.com/Polyrom/python-project-lvl3/actions/workflows/linter-check.yml/badge.svg)](https://github.com/Polyrom/python-project-lvl3/actions/workflows/linter-check.yml) [![Actions Status](https://github.com/Polyrom/python-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/Polyrom/python-project-lvl3/actions) <a href="https://codeclimate.com/github/Polyrom/python-project-lvl3/maintainability"><img src="https://api.codeclimate.com/v1/badges/f483fc3569edc6fd01b2/maintainability" /></a>
