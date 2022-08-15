@@ -3,5 +3,4 @@
 # Page loader
 A nice CLI utility to download any Internet page to view it offline later
 ## How it works
-<script id="asciicast-tODi5lrosB5fcP7X73ylZZ4gd" src="https://asciinema.org/a/tODi5lrosB5fcP7X73ylZZ4gd.js" async></script>
 [![asciicast](https://asciinema.org/a/tODi5lrosB5fcP7X73ylZZ4gd.svg)](https://asciinema.org/a/tODi5lrosB5fcP7X73ylZZ4gd)
