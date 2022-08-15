@@ -9,4 +9,3 @@ def format_filename(url):
     path, _ = os.path.splitext(no_scheme_url)
     filename = re.sub("[^A-Za-z0-9]", "-", path)
     return filename + ".html"
-
