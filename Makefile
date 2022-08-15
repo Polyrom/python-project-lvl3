@@ -9,4 +9,13 @@ package-install:
 
 package-reinstall:
 	poetry build
-	python3 -m pip install --user --force-reinstall dist/hexlet_code-0.1.1-py3-none-any.whl	
+	python3 -m pip install --user --force-reinstall dist/*.whl
+
+test:
+	poetry run pytest
+
+test-coverage:
+	poetry run pytest --cov=page_loader
+
+test-coverage-xml:
+	poetry run pytest --cov=page_loader --cov-report xml
