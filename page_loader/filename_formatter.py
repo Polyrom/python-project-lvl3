@@ -3,9 +3,12 @@ import re
 from urllib.parse import urlparse
 
 
-def format_filename(url):
+def get_basic_filename(url):
     split_url = urlparse(url)
-    no_scheme_url = split_url._replace(scheme="").geturl()[2:]
+    scheme = split_url.scheme + "://"
+    no_scheme_url = split_url.geturl().replace(scheme, "")
     path, _ = os.path.splitext(no_scheme_url)
-    filename = re.sub("[^A-Za-z0-9]", "-", path)
-    return filename + ".html"
+    clean_path = path.strip("/")
+    filename = re.sub("[^A-Za-z0-9]", "-", clean_path)
+
+    return filename
