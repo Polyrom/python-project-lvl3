@@ -6,7 +6,7 @@ A nice CLI utility to download any Internet page to view it offline later.
 ### Getting Started
 Just clone this repo to your machine, go to the package directory and run the following command in your terminal:
 
-`make install`
+`make package-install`
 
 ### How it works
 [![asciicast](https://asciinema.org/a/2rZj8akcsxOLkZAROM7sT5Ozf.svg)](https://asciinema.org/a/2rZj8akcsxOLkZAROM7sT5Ozf)
