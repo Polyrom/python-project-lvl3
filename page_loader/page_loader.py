@@ -9,7 +9,7 @@ from .assets_loader import download_assets
 logger = logging.getLogger("app.page_loader")
 
 
-def download(url, output):
+def download(url, output):  # noqa: C901
     logger.info("Starting downloading...")
     try:
         logger.info("Making request to server...")
@@ -55,4 +55,5 @@ def download(url, output):
     download_assets(url=url, text=original_html, directory=path_to_assets_dir)
     logger.info("Assets downloaded successfully!")
     logger.info("Download finished!")
+
     return path_to_html
