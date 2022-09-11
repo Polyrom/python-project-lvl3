@@ -12,4 +12,5 @@ def test_format_html():
     with open(build_fix_path("test_html.html")) as test_html, \
             open(build_fix_path("expected_html.html")) as expected_html:
         assets_dir_name = "ru-hexlet-io-courses_files"
-        assert format_html(TEST_URL, test_html, assets_dir_name) == expected_html.read()
+        resulting_html, _ = format_html(TEST_URL, test_html, assets_dir_name)
+        assert resulting_html == expected_html.read()

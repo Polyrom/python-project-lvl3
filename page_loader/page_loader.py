@@ -14,7 +14,7 @@ def download(url, output):
     path_to_html = os.path.join(output, basic_filename + ".html")
 
     # get formatted html
-    html = format_html(
+    html, _ = format_html(
         url=url,
         text=original_html,
         directory=path_to_assets_dir
@@ -28,7 +28,7 @@ def download(url, output):
     os.mkdir(path_to_assets_dir)
 
     # download images to assets_dir
-    download_assets(url=url, directory=path_to_assets_dir)
+    download_assets(url=url, text=original_html, directory=path_to_assets_dir)
 
     # return path to formatted html
     return path_to_html
