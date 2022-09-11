@@ -2,7 +2,7 @@ import os
 import requests
 from .html_formatter import format_html
 from .filename_formatter import get_basic_filename
-from .image_loader import download_images
+from .assets_loader import download_assets
 
 
 def download(url, output):
@@ -28,7 +28,7 @@ def download(url, output):
     os.mkdir(path_to_assets_dir)
 
     # download images to assets_dir
-    download_images(url=url, directory=path_to_assets_dir)
+    download_assets(url=url, directory=path_to_assets_dir)
 
     # return path to formatted html
     return path_to_html
