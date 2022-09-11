@@ -8,7 +8,7 @@ def parse_args():
     )
     parser.add_argument("url")
     parser.add_argument(
-        "--output",
+        "-o", "--output",
         default=os.getcwd(),
         help="target directory"
     )

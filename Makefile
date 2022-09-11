@@ -15,7 +15,7 @@ package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
 
 test:
-	poetry run pytest
+	poetry run pytest -o log_cli=true --log-cli-level=DEBUG
 
 test-coverage:
 	poetry run pytest --cov=page_loader
