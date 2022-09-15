@@ -38,7 +38,7 @@ def test_page_loader():
             m.get(TEST_CSS, text=test_css.read())
             m.get(TEST_JS_SCRIPT, text=test_js_script.read())
             path_to_html = os.path.join(td, "ru-hexlet-io-courses.html")
-            assert download(td, TEST_URL) == path_to_html
+            assert download(url=TEST_URL, output=td) == path_to_html
             assert os.path.isfile(path_to_html)
 
 
@@ -48,14 +48,14 @@ def test_page_loader_invalid_dir():
             random_url = "something.org"
             random_filename = get_random_string()
             fake_directory_path = os.path.join(td, random_filename)
-            download(random_url, fake_directory_path)
+            download(url=random_url, output=fake_directory_path)
 
 
 def test_page_loader_req_err():
     with pytest.raises(requests.exceptions.RequestException):
         with requests_mock.Mocker() as m, tempfile.TemporaryDirectory() as td:
             m.get(TEST_URL, status_code=404)
-            download(td, TEST_URL)
+            download(url=TEST_URL, output=td)
 
 
 def test_create_assets_dir():

@@ -20,7 +20,7 @@ def main():
     args = parse_args()
 
     try:
-        filename = download(args.output, args.url)
+        filename = download(url=args.url, output=args.output)
 
     except requests.exceptions.HTTPError as http_err:
         file_logger.error(f"HTTP Error occurred: {str(http_err)}")
