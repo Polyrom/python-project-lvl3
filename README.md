@@ -12,4 +12,4 @@ Just clone this repo to your machine, go to the package directory and run the fo
 `make package-install`
 
 ### How it works
-[![asciicast](https://asciinema.org/a/kOGaueAXyDM79pwBmwqxWvxUO.svg)](https://asciinema.org/a/kOGaueAXyDM79pwBmwqxWvxUO)
+[![asciicast](https://asciinema.org/a/ZFsfmbtzl8mNneRjZHl6IlelE.svg)](https://asciinema.org/a/ZFsfmbtzl8mNneRjZHl6IlelE)

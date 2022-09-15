@@ -1,8 +1,11 @@
 import os
+import pytest
 import tempfile
+import requests.exceptions
 import requests_mock
 from urllib.parse import urljoin
 from page_loader import download
+from page_loader.page_loader import create_assets_dir
 
 TEST_URL = "https://ru.hexlet.io/courses"
 TEST_IMAGE_URL = "/assets/professions/nodejs.png"
@@ -32,3 +35,28 @@ def test_page_loader():
             assert download(TEST_URL, td) == path_to_html
 
             assert os.path.isfile(path_to_html)
+
+
+def test_page_loader_invalid_dir():
+    with pytest.raises(FileNotFoundError):
+        random_url = "something.org"
+        fake_directory_path = os.path.join("Home", "Desktop", "324hfsdju!fsjk94")
+        download(random_url, fake_directory_path)
+
+
+def test_page_loader_req_err():
+    with pytest.raises(requests.exceptions.RequestException):
+        with requests_mock.Mocker() as m, tempfile.TemporaryDirectory() as td:
+            m.get(TEST_URL, status_code=404)
+            download(TEST_URL, td)
+
+
+def test_create_assets_dir():
+    with tempfile.TemporaryDirectory() as td:
+        test_dir = os.path.join(td, "test_dir")
+        os.mkdir(test_dir)
+        create_assets_dir(test_dir)
+
+        assert os.path.exists(test_dir)
+
+
