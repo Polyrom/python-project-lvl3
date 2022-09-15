@@ -27,7 +27,7 @@ def download(url, output):  # noqa: C901
 
     original_html = rs.text
     basic_filename = get_basic_filename(url)
-    path_to_assets_dir = os.path.join(output, basic_filename + "_files")
+    path_to_assets_dir = get_path_to_assets_dir(output, basic_filename + "_files")
     path_to_html = os.path.join(output, basic_filename + ".html")
 
     html, _ = format_html(
@@ -86,6 +86,13 @@ def save_html(html, path):
             handler.write(html)
     except PermissionError:
         raise
+
+
+def get_path_to_assets_dir(path, filename):
+    if path == os.getcwd():
+        return filename
+    else:
+        return os.path.join(path, filename)
 
 
 def create_assets_dir(path):
