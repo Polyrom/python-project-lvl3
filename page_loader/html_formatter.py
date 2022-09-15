@@ -15,7 +15,7 @@ def format_html(url, text, directory):
 
     for tag in tags:
         asset_link = get_link(tag)
-        extension = get_extension(asset_link)
+        _, extension = os.path.splitext(asset_link)
 
         if is_same_domain(url, asset_link):
             asset_url = urljoin(url, asset_link)
@@ -50,11 +50,3 @@ def get_link(tag):
         return tag["href"]
     elif tag.has_attr("src"):
         return tag["src"]
-
-
-def get_extension(link):
-    _, extension = os.path.splitext(link)
-    if extension == "":
-        return ".html"
-    else:
-        return extension

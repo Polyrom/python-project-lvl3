@@ -10,7 +10,7 @@ from .assets_loader import download_assets
 file_logger = logging.getLogger("file_log.page_loader")
 
 
-def download(url, output):  # noqa: C901
+def download(output, url):  # noqa: C901
 
     if not os.path.exists(output):
         raise FileNotFoundError

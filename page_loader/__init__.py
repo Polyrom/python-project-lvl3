@@ -7,5 +7,5 @@ __all__ = [
     'download',
     'download_assets',
     'get_basic_filename',
-    'format_html'
+    'format_html',
 ]
