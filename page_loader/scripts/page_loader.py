@@ -23,7 +23,7 @@ def main():
                              f"while making a request to server. "
                              f"Technical details below:\n"
                              f"{str(http_err)}")
-        sys.exit(0)
+        sys.exit(1)
 
     except requests.exceptions.RequestException as req_err:
         console_logger.error(f"OOPS! "
@@ -31,20 +31,20 @@ def main():
                              f"while making a request to server. "
                              f"Technical details below:\n"
                              f"{str(req_err)}")
-        sys.exit(0)
+        sys.exit(1)
 
     except PermissionError:
         console_logger.error(f"Make sure "
                              f"you have access rights "
                              f"to write files in the following directory:"
                              f" {args.output}.")
-        sys.exit(0)
+        sys.exit(1)
 
     except FileNotFoundError:
         console_logger.error(f"Invalid path: "
                              f"{args.output}. Make sure "
                              f"the directory exists.")
-        sys.exit(0)
+        sys.exit(1)
 
     else:
         print("Downloaded successfully!\n"
