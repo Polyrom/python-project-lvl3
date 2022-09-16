@@ -20,16 +20,17 @@ def format_html(url, text, directory):
         if is_same_domain(url, asset_link):
             asset_url = urljoin(url, asset_link)
             asset_name = get_basic_filename(asset_url) + extension
-            new_path = os.path.join(directory.rsplit("/")[-1], asset_name)
+            abs_path = os.path.join(directory, asset_name)
+            rel_path = os.path.join(directory.rsplit("/")[-1], asset_name)
 
             if tag.has_attr("href"):
-                asset_info = asset_url, new_path
+                asset_info = asset_url, abs_path
                 download_data.append(asset_info)
-                tag["href"] = new_path
+                tag["href"] = rel_path
             elif tag.has_attr("src"):
-                asset_info = asset_url, new_path
+                asset_info = asset_url, abs_path
                 download_data.append(asset_info)
-                tag["src"] = new_path
+                tag["src"] = rel_path
 
     return html.prettify(), download_data
 
