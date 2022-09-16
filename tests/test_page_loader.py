@@ -65,5 +65,3 @@ def test_create_assets_dir():
         create_assets_dir(test_dir)
 
         assert os.path.exists(test_dir)
-
-

@@ -38,4 +38,3 @@ def test_download_assets():
             assert os.path.isfile(path_to_image)
             assert os.path.isfile(path_to_stylesheet)
             assert os.path.isfile(path_to_js_script)
-
