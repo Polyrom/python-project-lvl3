@@ -35,16 +35,16 @@ def download(url, output):  # noqa: C901
         text=original_html,
         directory=path_to_assets_dir
     )
+    
+    file_logger.info("Creating directory for page assets")
+    try:
+        create_assets_dir(path_to_assets_dir)
+    except PermissionError:
+        raise
 
     file_logger.info("Saving HTML file")
     try:
         save_html(html, path_to_html)
-    except PermissionError:
-        raise
-
-    file_logger.info("Creating directory for page assets")
-    try:
-        create_assets_dir(path_to_assets_dir)
     except PermissionError:
         raise
 
