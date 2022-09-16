@@ -29,7 +29,7 @@ def main():
                              f"while making a request to server. "
                              f"Technical details below:\n"
                              f"{str(http_err)}")
-        sys.exit(1)
+        sys.exit(0)
 
     except requests.exceptions.RequestException as req_err:
         file_logger.critical(f"Request Error occurred: {str(req_err)}")
@@ -38,7 +38,7 @@ def main():
                              f"while making a request to server. "
                              f"Technical details below:\n"
                              f"{str(req_err)}")
-        sys.exit(1)
+        sys.exit(0)
 
     except PermissionError as perm_err:
         file_logger.critical(f"Permission Error occurred: {perm_err}")
@@ -46,14 +46,14 @@ def main():
                              f"you have access rights "
                              f"to write files in the following directory:"
                              f" {args.output}.")
-        sys.exit(1)
+        sys.exit(0)
 
     except FileNotFoundError as not_found_err:
         file_logger.critical(f"Invalid path: {not_found_err}")
         console_logger.error(f"Invalid path: "
                              f"{args.output}. Make sure "
                              f"the directory exists.")
-        sys.exit(1)
+        sys.exit(0)
 
     else:
         print("Downloaded successfully!\n"
