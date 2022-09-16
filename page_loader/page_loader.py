@@ -28,23 +28,23 @@ def download(url, output):  # noqa: C901
     original_html = rs.text
     basic_filename = get_basic_filename(url)
     path_to_html = os.path.join(output, basic_filename + ".html")
-    path_to_assets_dir = basic_filename + "_files"
+    path_to_assets_dir = os.path.join(output, basic_filename + "_files")
 
     html, _ = format_html(
         url=url,
         text=original_html,
         directory=path_to_assets_dir
     )
-    
-    file_logger.info("Creating directory for page assets")
-    try:
-        create_assets_dir(path_to_assets_dir)
-    except PermissionError:
-        raise
 
     file_logger.info("Saving HTML file")
     try:
         save_html(html, path_to_html)
+    except PermissionError:
+        raise
+
+    file_logger.info("Creating directory for page assets")
+    try:
+        create_assets_dir(path_to_assets_dir)
     except PermissionError:
         raise
 
@@ -90,7 +90,6 @@ def save_html(html, path):
 
 def create_assets_dir(path):
     try:
-        file_logger.info("Creating assets directory")
         os.mkdir(path)
     except FileExistsError:
         file_logger.info("Removing old assets directory")
