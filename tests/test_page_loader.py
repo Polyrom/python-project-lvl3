@@ -18,12 +18,10 @@ TEST_JS_SCRIPT_URL = "https://ru.hexlet.io/packs/js/runtime.js"
 TEST_IMAGE = urljoin(TEST_URL, TEST_IMAGE_URL)
 TEST_CSS = urljoin(TEST_URL, TEST_CSS_URL)
 TEST_JS_SCRIPT = urljoin(TEST_URL, TEST_JS_SCRIPT_URL)
-ASSETS = [
-          (TEST_URL, "test_html.html", "r"),
+ASSETS = [(TEST_URL, "test_html.html", "r"),
           (TEST_IMAGE_URL, "test_image.png", "rb"),
           (TEST_CSS_URL, "test_style.css", "r"),
-          (TEST_JS_SCRIPT_URL, "test_js_script.js", "r")
-]
+          (TEST_JS_SCRIPT_URL, "test_js_script.js", "r")]
 
 
 def get_random_string(size=10, chars=string.ascii_uppercase + string.digits):
