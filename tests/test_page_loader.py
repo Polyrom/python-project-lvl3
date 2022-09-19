@@ -7,7 +7,8 @@ import requests.exceptions
 import requests_mock
 from urllib.parse import urljoin
 from page_loader import download
-from page_loader.page_loader import create_assets_dir
+from page_loader import build_fixture_path
+from page_loader import get_basic_filename
 
 TEST_URL = "https://ru.hexlet.io/courses"
 TEST_IMAGE_URL = "/assets/professions/nodejs.png"
@@ -16,39 +17,53 @@ TEST_JS_SCRIPT_URL = "https://ru.hexlet.io/packs/js/runtime.js"
 TEST_IMAGE = urljoin(TEST_URL, TEST_IMAGE_URL)
 TEST_CSS = urljoin(TEST_URL, TEST_CSS_URL)
 TEST_JS_SCRIPT = urljoin(TEST_URL, TEST_JS_SCRIPT_URL)
-
-
-def fixture_path(filename):
-    return os.path.join("tests", "fixtures", filename)
+ASSETS = [
+          (TEST_URL, "test_html.html", "r"),
+          (TEST_IMAGE_URL, "test_image.png", "rb"),
+          (TEST_CSS_URL, "test_style.css", "r"),
+          (TEST_JS_SCRIPT_URL, "test_js_script.js", "r")
+]
 
 
 def get_random_string(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def test_page_loader():
-    with requests_mock.Mocker() as m, tempfile.TemporaryDirectory() as td:
-        with open(fixture_path("test_html.html"), "r") as test_html,\
-                open(fixture_path("test_image.png"), "rb") as test_image, \
-                open(fixture_path("test_style.css"), "r") as test_css, \
-                open(fixture_path("test_js_script.js"), "r") as test_js_script:
+def test_page_loader(tmpdir):
+    with requests_mock.Mocker() as mock:
+        for url, fixture_name, code in ASSETS:
+            with open(build_fixture_path(fixture_name), code) as test_asset:
+                if code == "rb":
+                    mock.get(url, content=test_asset.read())
+                else:
+                    mock.get(url, text=test_asset.read())
 
-            m.get(TEST_URL, text=test_html.read())
-            m.get(TEST_IMAGE, content=test_image.read())
-            m.get(TEST_CSS, text=test_css.read())
-            m.get(TEST_JS_SCRIPT, text=test_js_script.read())
-            path_to_html = os.path.join(td, "ru-hexlet-io-courses.html")
-            assert download(url=TEST_URL, output=td) == path_to_html
-            assert os.path.isfile(path_to_html)
+        path_to_html = os.path.join(tmpdir, get_basic_filename(TEST_URL) + ".html")
+        assert download(url=TEST_URL, output=tmpdir) == path_to_html
+        assert os.path.isfile(path_to_html)
 
 
-def test_page_loader_invalid_dir():
+# def test_page_loader(tmpdir):
+#     with requests_mock.Mocker() as mock:
+#         with open(build_fixture_path("test_html.html"), "r") as test_html, \
+#                 open(build_fixture_path("test_image.png"), "rb") as test_image, \
+#                 open(build_fixture_path("test_style.css"), "r") as test_css, \
+#                 open(build_fixture_path("test_js_script.js"), "r") as test_js_script:
+#             mock.get(TEST_URL, text=test_html.read())
+#             mock.get(TEST_IMAGE, content=test_image.read())
+#             mock.get(TEST_CSS, text=test_css.read())
+#             mock.get(TEST_JS_SCRIPT, text=test_js_script.read())
+#             path_to_html = os.path.join(tmpdir, "ru-hexlet-io-courses.html")
+#             assert download(url=TEST_URL, output=tmpdir) == path_to_html
+#             assert os.path.isfile(path_to_html)
+
+
+def test_page_loader_invalid_dir(tmpdir):
     with pytest.raises(FileNotFoundError):
-        with tempfile.TemporaryDirectory() as td:
-            random_url = "something.org"
-            random_filename = get_random_string()
-            fake_directory_path = os.path.join(td, random_filename)
-            download(url=random_url, output=fake_directory_path)
+        random_url = "something.org"
+        random_filename = get_random_string()
+        fake_directory_path = os.path.join(tmpdir, random_filename)
+        download(url=random_url, output=fake_directory_path)
 
 
 def test_page_loader_req_err():
@@ -56,12 +71,3 @@ def test_page_loader_req_err():
         with requests_mock.Mocker() as m, tempfile.TemporaryDirectory() as td:
             m.get(TEST_URL, status_code=404)
             download(url=TEST_URL, output=td)
-
-
-def test_create_assets_dir():
-    with tempfile.TemporaryDirectory() as td:
-        test_dir = os.path.join(td, "test_dir")
-        os.mkdir(test_dir)
-        create_assets_dir(test_dir)
-
-        assert os.path.exists(test_dir)

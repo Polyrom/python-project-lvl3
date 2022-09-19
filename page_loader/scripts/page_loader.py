@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import requests
 import logging
 from page_loader.cli import parse_args
 from page_loader import download
@@ -17,33 +16,9 @@ def main():
     try:
         filename = download(url=args.url, output=args.output)
 
-    except requests.exceptions.HTTPError as http_err:
-        console_logger.error(f"OOPS! "
-                             f"An HTTP error occurred "
-                             f"while making a request to server. "
-                             f"Technical details below:\n"
-                             f"{str(http_err)}")
-        sys.exit(1)
-
-    except requests.exceptions.RequestException as req_err:
-        console_logger.error(f"OOPS! "
-                             f"An error occurred "
-                             f"while making a request to server. "
-                             f"Technical details below:\n"
-                             f"{str(req_err)}")
-        sys.exit(1)
-
-    except PermissionError:
-        console_logger.error(f"Make sure "
-                             f"you have access rights "
-                             f"to write files in the following directory:"
-                             f" {args.output}.")
-        sys.exit(1)
-
-    except FileNotFoundError:
-        console_logger.error(f"Invalid path: "
-                             f"{args.output}. Make sure "
-                             f"the directory exists.")
+    except Exception as err:
+        console_logger.error(f"OOPS! An error occurred. "
+                             f"Technical details below: \n{err}")
         sys.exit(1)
 
     else:

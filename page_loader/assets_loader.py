@@ -2,17 +2,15 @@ import requests
 import logging
 import errno
 from progress.bar import ShadyBar
-from .html_formatter import format_html
 
 console_logger = logging.getLogger("console_log.assets_loader")
 
 
-def download_assets(url, text, directory):
-    _, download_info = format_html(url, text, directory)
+def download_assets(assets_info):
     progress_bar = ShadyBar("Downloading...",
-                            max=len(download_info),
+                            max=len(assets_info),
                             suffix="%(percent)d%% - Remaining time: %(eta)ds")
-    for asset_info in progress_bar.iter(download_info):
+    for asset_info in progress_bar.iter(assets_info):
         asset_url, new_path = asset_info
         try:
             with open(new_path, "wb") as handler:
@@ -25,9 +23,6 @@ def download_assets(url, text, directory):
                 console_logger.info(f"Could not download asset from "
                                     f"{asset_url} due to "
                                     f"too long name.")
-                console_logger.info(f"Could not download asset from "
-                                    f"{asset_url} due to "
-                                    f"too long name. Continuing...")
                 continue
             else:
                 raise
