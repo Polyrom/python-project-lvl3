@@ -18,7 +18,7 @@ By default, the HTML file will be saved to the current working directory.
 
 If you wish to set the destination directory, run:
 
-`page-loader [URL] -o [PATH TO DIRECTORY]`
+`page-loader -o [PATH TO DIRECTORY] [URL]`
 
 Alternatively, you can replace the `-o` flag with `--output`.
 
