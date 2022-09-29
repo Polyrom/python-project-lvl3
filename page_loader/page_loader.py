@@ -1,9 +1,8 @@
 import os
 import logging
 from pathlib import Path
-from page_loader.html_formatter import format_html
 from page_loader.url import build_basic_filepath
-from page_loader.assets_loader import download_assets
+from page_loader.assets_loader import download_assets, format_html
 
 
 def download(url, output):
@@ -14,7 +13,7 @@ def download(url, output):
     basic_filename = build_basic_filepath(url)
     no_ext_filename = str(Path(basic_filename).with_suffix(""))
 
-    html, download_info = format_html(
+    html, assets, assets_dir = format_html(
         url=url,
         parent_dir=output,
         filename=no_ext_filename
@@ -25,8 +24,6 @@ def download(url, output):
     with open(path_to_html, "w") as handler:
         handler.write(html)
 
-    download_assets(assets_info=download_info,
-                    parent_dir=output,
-                    filename=no_ext_filename)
+    download_assets(assets)
 
     return path_to_html
