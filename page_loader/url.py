@@ -9,4 +9,4 @@ def build_basic_filepath(url):
     path = no_scheme_url.strip("/")
     filepath = re.sub("[^A-Za-z0-9]", "-", path)
 
-    return filepath
+    return filepath + ".html"

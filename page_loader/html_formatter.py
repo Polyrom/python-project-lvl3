@@ -1,13 +1,17 @@
 import os
+import logging
+import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
-from .filename_builder import build_basic_filepath
-from .assets_loader import create_assets_dir_name
+from url import build_basic_filepath
+from assets_loader import create_assets_dir_name
 
 
-def format_html(url, text, parent_dir, filename):
-
-    html = BeautifulSoup(text, "html.parser")
+def format_html(url, parent_dir, filename):
+    logging.info("Making request to server")
+    rs = requests.get(url)
+    rs.raise_for_status()
+    html = BeautifulSoup(rs.text, "html.parser")
     image_tags = html.find_all("img", src=True)
     link_tags = html.findAll("link", href=True)
     script_tags = html.findAll("script", src=True)
@@ -44,7 +48,7 @@ def is_same_domain(html_url, asset_url):
 
 def make_asset_name(url, link):
     link_path, ext = os.path.splitext(link)
-    extension = ".html" if ext == "" else ext
     asset_url_no_ext = urljoin(url, link_path)
-    asset_name = build_basic_filepath(asset_url_no_ext) + extension
-    return asset_name
+    filename, _ = os.path.splitext(build_basic_filepath(asset_url_no_ext))
+    asset_extension = ".html" if ext == "" else ext
+    return filename + asset_extension

@@ -25,4 +25,5 @@ def download_assets(assets_info, parent_dir, filename):
 
 
 def create_assets_dir_name(directory, filename):
-    return os.path.join(directory, filename + "_files")
+    no_ext_filename, _ = os.path.splitext(filename)
+    return os.path.join(directory, no_ext_filename + "_files")
