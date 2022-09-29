@@ -3,8 +3,8 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
-from url import build_basic_filepath
-from assets_loader import create_assets_dir_name
+from page_loader.url import build_basic_filepath
+from page_loader.assets_loader import create_assets_dir_name
 
 
 def format_html(url, parent_dir, filename):

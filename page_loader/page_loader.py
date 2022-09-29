@@ -1,9 +1,9 @@
 import os
 import logging
 from pathlib import Path
-from html_formatter import format_html
-from url import build_basic_filepath
-from assets_loader import download_assets
+from page_loader.html_formatter import format_html
+from page_loader.url import build_basic_filepath
+from page_loader.assets_loader import download_assets
 
 
 def download(url, output):
