@@ -1,8 +1,7 @@
 import os
 import logging
-from pathlib import Path
 from page_loader.url import build_basic_filepath
-from page_loader.assets_loader import download_assets, format_html
+from page_loader.assets_loader import download_assets, prepare_data
 
 
 def download(url, output):
@@ -10,16 +9,12 @@ def download(url, output):
     if not os.path.exists(output):
         raise FileNotFoundError
 
-    basic_filename = build_basic_filepath(url)
-    no_ext_filename = str(Path(basic_filename).with_suffix(""))
-
-    html, assets, assets_dir = format_html(
+    html, assets = prepare_data(
         url=url,
-        parent_dir=output,
-        filename=no_ext_filename
+        parent_dir=output
     )
 
-    path_to_html = os.path.join(output, basic_filename)
+    path_to_html = os.path.join(output, build_basic_filepath(url))
     logging.info("Saving HTML file")
     with open(path_to_html, "w") as handler:
         handler.write(html)

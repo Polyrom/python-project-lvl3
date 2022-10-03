@@ -4,7 +4,10 @@ import logging
 from bs4 import BeautifulSoup
 from progress.bar import ShadyBar
 from urllib.parse import urljoin
-from page_loader.url import is_same_domain, make_asset_name
+from pathlib import Path
+from page_loader.url import is_same_domain, \
+    build_asset_name, \
+    build_basic_filepath
 
 
 def download_assets(assets_info):
@@ -26,7 +29,7 @@ def generate_assets_dir_name(directory, filename):
     return os.path.join(directory, no_ext_filename + "_files")
 
 
-def format_html(url, parent_dir, filename):
+def prepare_data(url, parent_dir):
     logging.info("Making request to server")
     rs = requests.get(url)
     rs.raise_for_status()
@@ -37,7 +40,9 @@ def format_html(url, parent_dir, filename):
     script_tags = html.findAll("script", src=True)
     tags = image_tags + link_tags + script_tags
 
-    assets_dir = generate_assets_dir_name(parent_dir, filename)
+    basic_filename = build_basic_filepath(url)
+    no_ext_filename = str(Path(basic_filename).with_suffix(""))
+    assets_dir = generate_assets_dir_name(parent_dir, no_ext_filename)
     logging.info("Creating directory for page assets")
     if not os.path.exists(assets_dir):
         os.mkdir(assets_dir)
@@ -49,11 +54,11 @@ def format_html(url, parent_dir, filename):
 
         if is_same_domain(url, asset_link):
             asset_url = urljoin(url, asset_link)
-            asset_name = make_asset_name(url, asset_link)
+            asset_name = build_asset_name(url, asset_link)
             abs_path = os.path.join(assets_dir, asset_name)
             rel_path = os.path.join(assets_dir.rsplit("/")[-1], asset_name)
             asset_info = asset_url, abs_path
             assets.append(asset_info)
             tag[attr] = rel_path
 
-    return html.prettify(), assets, assets_dir
+    return html.prettify(), assets
